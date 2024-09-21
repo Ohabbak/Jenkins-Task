@@ -4,7 +4,8 @@ pipeline {
     stages {
         stage('prep') {
             steps {
-                git 'https://github.com/Ohabbak/Jenkins-Task'
+                git branch: 'main', url: 'https://github.com/Ohabbak/Jenkins-Task'
+
             }
         }
         stage('build') {
