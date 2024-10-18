@@ -18,7 +18,6 @@ pipeline {
         stage('Build') {
             steps {
                 sh '''
-                cd application
                 echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
                 docker build . -t ${IMAGE_NAME}:latest
                 docker push ${IMAGE_NAME}:latest
@@ -30,7 +29,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh '''
-                    scp -r application/k8s private:/home/ubuntu/app
+                    scp -r k8s private:/home/ubuntu/app
                     ssh -o StrictHostKeyChecking=no private << EOF
                     sudo kubectl apply -f app/deployment.yml
                     sudo kubectl apply -f app/service.yml
