@@ -11,7 +11,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout Terraform project from version control
-                git branch: 'main', url: 'https://github.com/Ohabbak/infrastrucure-setup.git'
+                git branch: 'main', url: 'https://github.com/Ohabbak/Jenkins-Task.git'
             }
         }
 
