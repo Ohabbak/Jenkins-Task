@@ -1,3 +1,7 @@
+def COLOR_MAP = [
+    FAILURE: 'danger',
+    SUCCESS: 'good'
+]
 pipeline {
     agent any
     
@@ -35,6 +39,19 @@ pipeline {
                     sudo kubectl apply -f app/service.yml
                 '''
 
+            }
+        }
+    }
+    post {
+        always {
+            echo 'Slack Notifications'
+            script {
+                def color = COLOR_MAP[currentBuild.currentResult] ?: 'warning' // Default to 'warning' if build result is not FAILURE or SUCCESS
+                slackSend (
+                    color: color,
+                    channel: '#pipelines',
+                    message: "${currentBuild.currentResult} Job ${env.JOB_NAME}\nbuild ${env.BUILD_NUMBER}\nMore info at: ${env.BUILD_URL}"
+                )
             }
         }
     }
